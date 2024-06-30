@@ -162,6 +162,100 @@ namespace CaesarCipherExample
 
 
 
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+using System;
+
+namespace CaesarCipher
+{
+    class Program
+    {
+        // Function to encrypt or decrypt a single character
+        public static char Cipher(char ch, int key)
+        {
+            // If the character is not a letter, return it as is
+            if (!char.IsLetter(ch))
+            {
+                return ch;
+            }
+
+            // Determine whether the character is uppercase or lowercase
+            char offset = char.IsUpper(ch) ? 'A' : 'a';
+
+            // Apply the shift and wrap around the alphabet
+            return (char)(((ch + key - offset) % 26) + offset);
+        }
+
+        // Function to encrypt a string using the given key
+        public static string Encipher(string input, int key)
+        {
+            string output = string.Empty;
+
+            foreach (char ch in input)
+            {
+                output += Cipher(ch, key);
+            }
+
+            return output;
+        }
+
+        // Function to decrypt a string using the given key
+        public static string Decipher(string input, int key)
+        {
+            // Decryption is the same as encryption with the key's inverse
+            return Encipher(input, 26 - key);
+        }
+
+        static void Main(string[] args)
+        {
+            bool repeat;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("========================================");
+                Console.WriteLine("\t\tCaesar Cipher");
+                Console.WriteLine("========================================");
+
+                // Get the text to be encrypted or decrypted
+                Console.Write("Enter Text: ");
+                string text = Console.ReadLine();
+
+                // Get the key for the cipher
+                Console.Write("Enter Key (shift amount): ");
+                int key = Convert.ToInt32(Console.ReadLine());
+
+                // Choose whether to encrypt or decrypt
+                Console.WriteLine("1. Encrypt");
+                Console.WriteLine("2. Decrypt");
+                Console.Write("Your Choice: ");
+                int choice = Convert.ToInt32(Console.ReadLine());
+
+                if (choice == 1)
+                {
+                    string encryptedText = Encipher(text, key);
+                    Console.WriteLine("Encrypted Data: " + encryptedText);
+                }
+                else if (choice == 2)
+                {
+                    string decryptedText = Decipher(text, key);
+                    Console.WriteLine("Decrypted Data: " + decryptedText);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Choice!");
+                }
+
+                // Ask the user if they want to process another text
+                Console.Write("Do you want to try again? (Y/N): ");
+                char repeatChoice = Console.ReadKey().KeyChar;
+                repeat = repeatChoice == 'Y' || repeatChoice == 'y';
+
+            } while (repeat);
+
+            Console.WriteLine("\nGoodbye!");
+        }
+    }
+}
 
 
 
