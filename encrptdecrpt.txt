@@ -1,0 +1,176 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Caesar_Cipher
+{
+    class Program
+    {
+
+
+        public static char cipher(char ch, int key)
+        {
+            if (!char.IsLetter(ch))
+            {
+
+                return ch;
+            }
+
+            char d = char.IsUpper(ch) ? 'A' : 'a';
+            return (char)((((ch + key) - d) % 26) + d);
+
+
+        }
+
+
+        public static string Encipher(string input, int key)
+        {
+            string output = string.Empty;
+
+            foreach (char ch in input)
+                output += cipher(ch, key);
+
+            return output;
+        }
+
+        public static string Decipher(string input, int key)
+        {
+            return Encipher(input, 26 - key);
+        }
+
+
+        static void Main(string[] args)
+        {
+
+            Console.WriteLine("Type a string to encrypt:");
+            string UserString = Console.ReadLine();
+
+            Console.WriteLine("\n");
+
+            Console.Write("Enter your Key");
+            int key = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("\n");
+
+
+            Console.WriteLine("Encrypted Data");
+
+            string cipherText = Encipher(UserString, key);
+            Console.WriteLine(cipherText);
+            Console.Write("\n");
+
+            Console.WriteLine("Decrypted Data:");
+
+            string t = Decipher(cipherText, key);
+            Console.WriteLine(t);
+            Console.Write("\n");
+
+
+
+
+            Console.ReadKey();
+
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using System;
+
+namespace CaesarCipherExample
+{
+    public class CaesarCipher
+    {
+        // Method to encrypt a message using Caesar Cipher
+        public string Encrypt(string input, int shift)
+        {
+            char[] buffer = input.ToCharArray();
+
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                char letter = buffer[i];
+
+                if (char.IsLetter(letter))
+                {
+                    char offset = char.IsUpper(letter) ? 'A' : 'a';
+                    letter = (char)((((letter + shift) - offset) % 26) + offset);
+                }
+                buffer[i] = letter;
+            }
+
+            return new string(buffer);
+        }
+
+        // Method to decrypt a message using Caesar Cipher
+        public string Decrypt(string input, int shift)
+        {
+            return Encrypt(input, 26 - (shift % 26));
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            CaesarCipher cipher = new CaesarCipher();
+
+            Console.WriteLine("Enter the message to encrypt:");
+            string plaintext = Console.ReadLine();
+
+            Console.WriteLine("Enter the shift value:");
+            int shift;
+            while (!int.TryParse(Console.ReadLine(), out shift))
+            {
+                Console.WriteLine("Invalid input. Please enter a valid integer for the shift value:");
+            }
+
+            string encryptedMessage = cipher.Encrypt(plaintext, shift);
+            Console.WriteLine($"Encrypted Message: {encryptedMessage}");
+
+            string decryptedMessage = cipher.Decrypt(encryptedMessage, shift);
+            Console.WriteLine($"Decrypted Message: {decryptedMessage}");
+
+            // Keep the console open
+            Console.ReadLine();
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
