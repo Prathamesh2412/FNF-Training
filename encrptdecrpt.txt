@@ -1,5 +1,115 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    // Define custom exception for empty string arguments.
+    public class EmptyStringArgument : Exception
+    {
+        public EmptyStringArgument(string message) : base(message) { }
+    }
+
+    // Method to separate unique and duplicate words.
+    public static void SeparateWords(string input, out List<string> uniqueWords, out List<string> duplicateWords)
+    {
+        if (input == null)
+        {
+            throw new NullReferenceException("The input string is null.");
+        }
+
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            throw new EmptyStringArgument("The input string is empty.");
+        }
+
+        // Normalize input and split into words.
+        var words = input.ToLower().Split(new char[] { ' ', ',', '.', '!', '?', ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+        // Dictionaries to track word counts.
+        var wordCount = new Dictionary<string, int>();
+
+        // Populate the dictionary with word counts.
+        foreach (var word in words)
+        {
+            if (wordCount.ContainsKey(word))
+            {
+                wordCount[word]++;
+            }
+            else
+            {
+                wordCount[word] = 1;
+            }
+        }
+
+        // Separate unique and duplicate words.
+        uniqueWords = wordCount.Where(pair => pair.Value == 1).Select(pair => pair.Key).ToList();
+        duplicateWords = wordCount.Where(pair => pair.Value > 1).Select(pair => pair.Key).ToList();
+    }
+
+    static void Main()
+    {
+        try
+        {
+            // Test cases to demonstrate functionality.
+            string[] testCases = 
+            {
+                "Do not call me, let me call you",
+                "I had coffee at a coffee shop yesterday during coffee break",
+                "",
+                null
+            };
+
+            foreach (var testCase in testCases)
+            {
+                Console.WriteLine($"Processing: \"{testCase}\"");
+
+                // Call the SeparateWords method and handle exceptions.
+                try
+                {
+                    SeparateWords(testCase, out List<string> uniqueWords, out List<string> duplicateWords);
+
+                    // Display results.
+                    Console.WriteLine($"Unique: {string.Join(", ", uniqueWords)}");
+                    Console.WriteLine($"Duplicate: {string.Join(", ", duplicateWords)}");
+                }
+                catch (EmptyStringArgument ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+                catch (NullReferenceException ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    // Catch any other unforeseen exceptions.
+                    Console.WriteLine($"Unexpected error: {ex.Message}");
+                }
+
+                Console.WriteLine(); // For better readability between test cases.
+            }
+        }
+        catch (Exception ex)
+        {
+            // Catch any exceptions that may arise in the main method itself.
+            Console.WriteLine($"An error occurred in the main program: {ex.Message}");
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+using System;
+using System.Collections.Generic;
 
 class StringEncoder
 {
