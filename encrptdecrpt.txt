@@ -1,6 +1,56 @@
 using System;
 using System.Collections.Generic;
 
+public class Program
+{
+    public static string EncodeString(string inputString)
+    {
+        
+        inputString = inputString.ToLower();
+
+        string[] words = inputString.Split();
+
+        List<string> encodedChars = new List<string>();
+
+        for (int wordIndex = 0; wordIndex < words.Length; wordIndex++)
+        {
+            string word = words[wordIndex];
+            
+            for (int charIndex = 0; charIndex < word.Length; charIndex++)
+            {
+                char currentChar = word[charIndex];
+                
+                int position = inputString.IndexOf(currentChar) + 1;
+                
+                string code = (wordIndex + 1).ToString()+(charIndex + 1).ToString();
+                encodedChars.Add(code);
+            }
+        }
+    
+        string encodedString = string.Join(",", encodedChars);
+
+        return encodedString;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using System;
+using System.Collections.Generic;
+
 namespace LogicalPrograms
 {
     class Program
