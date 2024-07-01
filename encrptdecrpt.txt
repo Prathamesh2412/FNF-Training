@@ -1,4 +1,87 @@
 using System;
+using System.Collections.Generic;
+
+namespace LogicalPrograms
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string name = "this is a a program program";
+            
+            // Check for empty or null string
+            if (string.IsNullOrEmpty(name))
+            {
+                Console.WriteLine("Input string is empty or null.");
+                Console.ReadLine();
+                return;
+            }
+
+            string[] arr = name.Split(' ');
+
+            // Lists to store unique and duplicate words
+            var uniqueList = new List<string>();
+            var duplicateList = new List<string>();
+
+            // Dictionary to count occurrences of each word
+            var wordCount = new Dictionary<string, int>();
+
+            // Count occurrences of each word
+            foreach (string word in arr)
+            {
+                if (wordCount.ContainsKey(word))
+                {
+                    wordCount[word]++;
+                }
+                else
+                {
+                    wordCount[word] = 1;
+                }
+            }
+
+            // Separate words into unique and duplicate lists
+            foreach (var kvp in wordCount)
+            {
+                if (kvp.Value == 1)
+                {
+                    uniqueList.Add(kvp.Key);
+                }
+                else
+                {
+                    duplicateList.Add(kvp.Key);
+                }
+            }
+
+            // Print unique words
+            Console.WriteLine("Unique words:");
+            foreach (string word in uniqueList)
+            {
+                Console.WriteLine(word);
+            }
+
+            // Print duplicate words
+            Console.WriteLine("\nDuplicate words:");
+            foreach (string word in duplicateList)
+            {
+                Console.WriteLine(word);
+            }
+
+            Console.ReadLine();
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+using System;
 
 public class MainInput
 {
