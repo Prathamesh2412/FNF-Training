@@ -1,5 +1,70 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
+namespace LogicalPrograms
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string name = "this is a a program program";
+            string[] arr = name.Split(' ');
+
+            var myList = new List<string>();
+            var duplicates = new List<string>();
+
+            foreach(string res in arr)
+            {
+                if (!myList.Contains(res))
+                {
+                    char dupli = myList.Add(res);
+                    System.Console.WriteLine("the duplicates are",dupli);
+                }
+                else
+                {
+                    char uniques = duplicates.Add(res);
+                    System.Console.WriteLine("the duplicates are",uniques);
+                }
+            }
+
+            foreach(string result in duplicates)
+            {
+                Console.WriteLine(result);
+            }
+
+            Console.ReadLine();
+}
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using System;
+using System.Collections.Generic;
 using System.Text;
 
 public class Program
