@@ -1,4 +1,49 @@
 using System;
+using System.Collections.Generic;
+
+namespace sampleapp
+{
+    class ListOperations
+    {
+        static void Main(string[] args)
+        {
+            // Initialize the list
+            List<int> many = new List<int>();
+
+            // Read the number of elements to add to the list
+            Console.WriteLine("How many elements do you want to add?");
+            int count = int.Parse(Console.ReadLine());
+
+            // Loop to add elements to the list
+            for (int i = 0; i < count; i++)
+            {
+                Console.WriteLine("Enter element {0}:", i + 1);
+                int manyy = int.Parse(Console.ReadLine());
+                many.Add(manyy);
+            }
+
+            // Print all elements in the list
+            Console.WriteLine("The elements in the list are:");
+            foreach (int item in many)
+            {
+                Console.WriteLine(item);
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+using System;
 
 namespace Caesar_Cipher
 {
