@@ -1,0 +1,178 @@
+comman elements in two list
+
+using System;
+using System.Collections.Generic;
+
+namespace leapyear
+{
+    class leap
+    {
+        public static void commanelements()
+        {
+            Dictionary<char,int> dict = new Dictionary<char,int>();
+            int total  = 0;
+
+            Console.WriteLine("enter the string");
+            string input = Console.ReadLine();
+
+            foreach(char ch in input)
+            {
+                if (dict.ContainsValue(ch))
+                {
+                    dict[ch] += 1;
+                }
+                else
+                {
+                    dict[ch] = 1;
+                }
+            }
+            foreach (KeyValuePair<char, int> entry in dict)
+            {
+                Console.WriteLine($"{entry.Key}: {entry.Value}");
+            }
+            if (dict.Count> 1)
+            {
+                Console.WriteLine($"more than nique value found");
+            }
+
+        }
+        static void Main(string[] args)
+        {
+           commanelements();
+            Console.ReadLine();
+        }
+    }
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Xml.Linq;
+
+namespace sampleapp
+{
+    class geniriccollections
+    {
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+        public void vowels()
+        {
+            string input = " my name ";
+            List<char> vowels = new List<char> { 'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u' };
+
+            List<char> found = new List<char>();
+
+            foreach (char ch in input)
+            {
+                if (vowels.Contains(ch))
+                {
+                    found.Add(ch);
+                }
+            }
+
+            foreach (char ch in found)
+            {
+                Console.WriteLine(ch);
+
+            }
+        }
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+        public void anagram()
+        {
+            string input1 = "silet";
+            string input2 = "listen";
+
+            if (input1.Length != input2.Length)
+            {
+                Console.WriteLine("no ana");
+            }
+            else {
+                string abc = input1.ToLower();
+                string def = input2.ToLower();
+
+
+                char[] newabc = abc.ToCharArray();
+                char[] ndef = def.ToCharArray();
+
+                Array.Sort(newabc);
+                Array.Sort(ndef);
+
+                if (new string(newabc) == new string(ndef))
+                {
+                    Console.WriteLine("anagram");
+                }
+                else {
+                    Console.WriteLine("no anagram");
+                }
+            }
+        }
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+         public void  armstrong()
+         {
+                 int sum = 0;
+         int x = 153;
+         int numdigi = x.ToString().Length;
+         int temp = x;
+
+         while (x > 0)
+         {
+             int digit = x % 10;
+             sum += (int)Math.Pow(digit, numdigi); 
+             x /= 10;
+         }
+         Console.WriteLine(sum);
+         if (sum == temp)
+         {
+             Console.WriteLine("arms strong");
+         }
+         else
+         {
+             Console.WriteLine("not an armsterong no");
+         }
+
+         }
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+        public int Factorial(int fact)
+        {
+            
+            if (fact == 0)
+            {
+                return 0;
+            }
+            else if (fact == 1) {
+                return 1; 
+            }
+            else
+            {
+                return  fact * Factorial(fact - 1);
+            }
+        }
+----------------------------------------------------------------------------------------------------------
+        public void Factors(int num)
+        {
+            List<int> factt = new List<int>();
+            for (int i = 2; i <= num; i++)
+            {
+                if (num%i == 0)
+                {
+                    factt.Add(i);
+                }
+            }
+            foreach(int numbe in factt)
+            {
+                Console.WriteLine(numbe);
+            }
+        }
+        static void Main(string[] args)
+            {
+            geniriccollections program = new geniriccollections();
+
+            program.Factors(45);
+            //int result = program.Factorial(8);
+            //Console.WriteLine(result);
+            Console.ReadLine();
+            }
+        }
+    }
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
