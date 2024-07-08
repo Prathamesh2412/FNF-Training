@@ -176,3 +176,42 @@ namespace sampleapp
     }
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+using System;
+namespace Caesar_Cipher
+{
+    class twosum
+    {
+        public void addfunc(int a)
+        {
+            // Loop through each row
+            for (int i = 1; i <= a; i++)
+            {
+                // Print spaces for formatting
+                for (int j = 1; j <= a - i; j++)
+                {
+                    Console.Write(" ");
+                }
+                // Print asterisks for the pyramid pattern
+                for (int k = 1; k <= 2 * i - 1; k++)
+                {
+                    Console.Write("*");
+                }
+                Console.WriteLine(); // Move to the next line after each row
+            }
+        }
+        class Program
+        {
+            public static void Main(string[] args)
+            {
+                twosum sumi = new twosum();
+
+                sumi.addfunc(5);
+
+                Console.ReadLine();
+            }
+        }
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
