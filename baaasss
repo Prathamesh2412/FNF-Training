@@ -48,3 +48,57 @@ namespace ConsoleApp1
 
 
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    internal class Frequencyofwords
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, int> wordFrequency = new Dictionary<string, int>();
+
+            Console.WriteLine("Enter the string: ");
+            string input = Console.ReadLine();
+
+            // Use regular expressions to find all words (case insensitive)
+            var words = Regex.Matches(input.ToLower(), @"\b[a-zA-Z]+\b")
+                             .Cast<Match>()
+                             .Select(m => m.Value)
+                             .ToList();
+
+            if (!words.Any())
+            {
+                Console.WriteLine(0);
+                return;
+            }
+
+            foreach (var word in words)
+            {
+                if (wordFrequency.ContainsKey(word))
+                {
+                    wordFrequency[word]++;
+                }
+                else
+                {
+                    wordFrequency[word] = 1;
+                }
+            }
+
+            // Sort the words by frequency (descending) and then by reverse alphabetical order
+            var sortedWords = wordFrequency.OrderByDescending(item => item.Value)
+                                           .ThenBy(item => item.Key, Comparer<string>.Create((x, y) => string.Compare(y, x)))
+                                           .ToList();
+
+            foreach (var kvp in sortedWords)
+            {
+                Console.WriteLine($"{kvp.Value} {kvp.Key}");
+            }
+        }
+    }
+}
+
+
