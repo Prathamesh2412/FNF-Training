@@ -1,1 +1,46 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
+namespace BookSorter
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> books = new List<string>
+            {
+                "\"The Canterbury Tales\" by Chaucer",
+                "\"Algorithms\" by Sedgewick",
+                "\"The C Programming Language\" by Kernighan and Ritchie"
+            };
+
+            List<string> sortedTitles = SortTitles(books);
+
+            foreach (var title in sortedTitles)
+            {
+                Console.WriteLine(title);
+            }
+        }
+
+        public static List<string> SortTitles(List<string> bookEntries)
+        {
+            // Parse the entries into a list of tuples (Title, Author)
+            var parsedBooks = bookEntries.Select(entry =>
+            {
+                var parts = entry.Split(new[] { " by " }, StringSplitOptions.None);
+                var title = parts[0].Trim('\"');
+                var author = parts[1].Split(',')[0].Trim();
+                return (Title: title, Author: author);
+            }).ToList();
+
+            // Sort the parsed list first by author and then by title
+            var sortedBooks = parsedBooks.OrderBy(book => book.Author)
+                                         .ThenBy(book => book.Title)
+                                         .Select(book => book.Title)
+                                         .ToList();
+
+            return sortedBooks;
+        }
+    }
+}
