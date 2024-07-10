@@ -1,5 +1,76 @@
 using System;
 using System.Collections.Generic;
+
+namespace ConsoleApp1
+{
+    internal class Library
+    {
+        public List<string> SortTitles(List<string> bookEntries)
+        {
+            // Create a dictionary to store authors and their corresponding book titles
+            var bookDict = new SortedDictionary<string, List<string>>();
+
+            foreach (var entry in bookEntries)
+            {
+                var parts = entry.Split(new[] { " by " }, StringSplitOptions.None);
+                var title = parts[0].Trim('\"');
+                var author = parts[1].Split(new[] { ',' }, StringSplitOptions.None)[0].Trim();
+
+                if (!bookDict.ContainsKey(author))
+                {
+                    bookDict[author] = new List<string>();
+                }
+
+                bookDict[author].Add(title);
+            }
+
+            // Create a list to store the sorted book titles
+            var sortedTitles = new List<string>();
+
+            // Iterate through the sorted dictionary
+            foreach (var author in bookDict.Keys)
+            {
+                // Sort the list of titles for each author
+                bookDict[author].Sort();
+                foreach (var title in bookDict[author])
+                {
+                    sortedTitles.Add(title);
+                }
+            }
+
+            return sortedTitles;
+        }
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> books = new List<string>
+            {
+                "\"The Canterbury Tales\" by Chaucer",
+                "\"Algorithms\" by Sedgewick",
+                "\"The C Programming Language\" by Kernighan and Ritchie"
+            };
+
+            Library library = new Library();
+            List<string> sortedTitles = library.SortTitles(books);
+
+            foreach (var title in sortedTitles)
+            {
+                Console.WriteLine(title);
+            }
+        }
+    }
+}
+
+
+
+
+
+
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
