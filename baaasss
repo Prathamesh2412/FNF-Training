@@ -1,1 +1,54 @@
------------------------------------------------------------------------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+class Program
+{
+    static void Main()
+    {
+        string text = "Hello World. This is a nice World.";
+        WordFrequencyCounter(text);
+    }
+
+    static void WordFrequencyCounter(string text)
+    {
+        // Use regular expressions to find all words (case insensitive)
+        var words = Regex.Matches(text.ToLower(), @"\b[a-zA-Z]+\b")
+                         .Cast<Match>()
+                         .Select(m => m.Value)
+                         .ToList();
+        
+        // If there are no words, print 0 and return
+        if (!words.Any())
+        {
+            Console.WriteLine(0);
+            return;
+        }
+        
+        // Count the frequency of each word
+        var wordCounts = new Dictionary<string, int>();
+        foreach (var word in words)
+        {
+            if (wordCounts.ContainsKey(word))
+            {
+                wordCounts[word]++;
+            }
+            else
+            {
+                wordCounts[word] = 1;
+            }
+        }
+        
+        // Sort the words by frequency (descending) and then by reverse alphabetical order
+        var sortedWords = wordCounts.OrderByDescending(item => item.Value)
+                                    .ThenBy(item => item.Key, Comparer<string>.Create((x, y) => string.Compare(y, x)))
+                                    .ToList();
+        
+        // Print the word and its frequency
+        foreach (var item in sortedWords)
+        {
+            Console.WriteLine($"{item.Value} {item.Key}");
+        }
+    }
+}-----------------------------------------------------------------------------------------------------------------------------------------------------------
