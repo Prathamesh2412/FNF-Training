@@ -1,1 +1,59 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
+namespace ConsoleApp1
+{
+    internal class WordFrequency
+    {
+        public static SortedDictionary<string, int> CalculateFrequency(string input)
+        {
+            SortedDictionary<string, int> wordFrequency = new SortedDictionary<string, int>();
+            string[] words = Regex.Split(input, @"\W+");
+
+            foreach (string word in words)
+            {
+                if (!string.IsNullOrWhiteSpace(word))
+                {
+                    if (wordFrequency.ContainsKey(word))
+                    {
+                        wordFrequency[word] += 1;
+                    }
+                    else
+                    {
+                        wordFrequency[word] = 1;
+                    }
+                }
+            }
+
+            return wordFrequency;
+        }
+    }
+
+    internal class FrequencyOfWords
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter the string:");
+            string input = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                Console.WriteLine(0);
+                return;
+            }
+
+            var wordFrequency = WordFrequency.CalculateFrequency(input);
+
+            var sortedWords = wordFrequency.OrderByDescending(kv => kv.Value).ThenBy(kv => kv.Key).ToList();
+
+            foreach (var kvp in sortedWords)
+            {
+                Console.WriteLine($"{kvp.Value} {kvp.Key}");
+            }
+
+            Console.ReadLine();
+        }
+    }
+}
