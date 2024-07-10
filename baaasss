@@ -1,46 +1,44 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
-namespace BookSorter
+namespace ConsoleApp1
 {
-    class Program
+    internal class library
     {
         static void Main(string[] args)
         {
-            List<string> books = new List<string>
-            {
-                "\"The Canterbury Tales\" by Chaucer",
-                "\"Algorithms\" by Sedgewick",
-                "\"The C Programming Language\" by Kernighan and Ritchie"
-            };
+            SortedDictionary<string, string> bookInfo = new SortedDictionary<string, string>();
 
-            List<string> sortedTitles = SortTitles(books);
+            Console.WriteLine("Enter the book titles and authors separate author and title by world BY title by author ");
+
+            List<string> input = new List<string>();
+            while (true)
+            {
+                string entry = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(entry))
+                    break;
+                input.Add(entry);
+            }
+
+            foreach (string book in input)
+            {
+                string[] parts = book.Split(new string[] { " by " }, StringSplitOptions.None);
+                if (parts.Length == 2)
+                {
+                    string title = parts[0];
+                    string author = parts[1].Split(new string[] { " and " }, StringSplitOptions.None)[0];
+                    bookInfo[title] = author;
+                }
+            }
+
+            var sortedTitles = bookInfo.OrderBy(kv => kv.Value).ThenBy(kv => kv.Key).Select(kv => kv.Key);
 
             foreach (var title in sortedTitles)
             {
                 Console.WriteLine(title);
             }
-        }
-
-        public static List<string> SortTitles(List<string> bookEntries)
-        {
-            // Parse the entries into a list of tuples (Title, Author)
-            var parsedBooks = bookEntries.Select(entry =>
-            {
-                var parts = entry.Split(new[] { " by " }, StringSplitOptions.None);
-                var title = parts[0].Trim('\"');
-                var author = parts[1].Split(',')[0].Trim();
-                return (Title: title, Author: author);
-            }).ToList();
-
-            // Sort the parsed list first by author and then by title
-            var sortedBooks = parsedBooks.OrderBy(book => book.Author)
-                                         .ThenBy(book => book.Title)
-                                         .Select(book => book.Title)
-                                         .ToList();
-
-            return sortedBooks;
         }
     }
 }
