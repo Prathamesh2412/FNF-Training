@@ -1,59 +1,134 @@
+using ConsoleApp3;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    internal class WordFrequency
+    public class Library
     {
-        public static SortedDictionary<string, int> CalculateFrequency(string input)
-        {
-            SortedDictionary<string, int> wordFrequency = new SortedDictionary<string, int>();
-            string[] words = Regex.Split(input, @"\W+");
-
-            foreach (string word in words)
-            {
-                if (!string.IsNullOrWhiteSpace(word))
-                {
-                    if (wordFrequency.ContainsKey(word))
-                    {
-                        wordFrequency[word] += 1;
-                    }
-                    else
-                    {
-                        wordFrequency[word] = 1;
-                    }
-                }
-            }
-
-            return wordFrequency;
-        }
+        public int BookId { get; set; }
+        public string BookName { get; set; } = string.Empty;
+        public string Author { get; set; } = string.Empty;
     }
 
-    internal class FrequencyOfWords
+    public class Display()
     {
+        private List<Library> inventry = new List<Library>();
+
+        public void AddBook()
+        {
+            Library details = new Library();
+
+            Console.WriteLine("Enter the id of the book to add:");
+            details.BookId = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter te name of the book:");
+            details.BookName = Console.ReadLine();
+
+            Console.WriteLine("Enter the Author of the book:");
+            details.Author = Console.ReadLine();
+
+
+            inventry.Add(details);
+            Console.WriteLine("book added succesfully");
+        }
+
+        public void RemoveBook()
+        {
+            Console.WriteLine("Enter the ID of the expense to remove:");
+            int id = int.Parse(Console.ReadLine());
+
+            Library book = inventry.Find(e => e.BookId == id);
+            if (book != null)
+            {
+                inventry.Remove(book);
+                Console.WriteLine("Expense removed successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid ID. Expense not found.");
+            }
+        }
+
+        public void FindBook()
+        {
+            Console.WriteLine("Enter the id of the book u want to find");
+            string author = Console.ReadLine();
+
+            Library book = inventry.Find(e => e.Author == author);
+            if (book != null)
+            {
+                Console.WriteLine($"Book you were searching its id is{book.BookId}\n the Book Name is:{book.BookName}\n and its Author is:{book.Author}");
+            }
+            else
+            {
+                Console.WriteLine("book not found");
+            }
+        }
+        public void UpdateDetails()
+        {
+            Console.WriteLine("enter the book id to update");
+            int id = int.Parse(Console.ReadLine());
+
+            Library book = inventry.Find(e => e.BookId == id);
+            if (book != null)
+            {
+                Console.WriteLine("enter the new id for the book");
+                book.BookId = int.Parse(Console.ReadLine());
+
+                Console.WriteLine("enter the new book name");
+                book.BookName = Console.ReadLine();
+
+                Console.WriteLine("enter the new Author");
+                book.Author = Console.ReadLine();
+
+                Console.WriteLine("book updated succesfully");
+            }
+            else
+            {
+                Console.WriteLine("Invalid book id book not found");
+            }
+
+        }
         static void Main(string[] args)
         {
-            Console.WriteLine("Enter the string:");
-            string input = Console.ReadLine();
+            Console.WriteLine("Library Management System");
+            Display details = new Display();
 
-            if (string.IsNullOrWhiteSpace(input))
+            do { 
+            Console.WriteLine("1: Add Bokk");
+            Console.WriteLine("2: Update book details");
+            Console.WriteLine("3: Remove book");
+            Console.WriteLine("4: Find book by its author name");
+
+            Console.WriteLine("Enter your choice:");
+            int choice = int.Parse(Console.ReadLine());
+
+            switch (choice)
             {
-                Console.WriteLine(0);
-                return;
+                case 1:
+                        details.AddBook();
+                    break;
+                case 2:
+                        details.UpdateDetails();
+                    break;
+                case 3:
+                        details.RemoveBook();
+                    break;
+                case 4:
+                        details.FindBook();
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice");
+                    break;
             }
-
-            var wordFrequency = WordFrequency.CalculateFrequency(input);
-
-            var sortedWords = wordFrequency.OrderByDescending(kv => kv.Value).ThenBy(kv => kv.Key).ToList();
-
-            foreach (var kvp in sortedWords)
-            {
-                Console.WriteLine($"{kvp.Value} {kvp.Key}");
-            }
-
+            Console.WriteLine("Press Enter to continue...");
             Console.ReadLine();
+        } while (true);
         }
     }
 }
