@@ -24,6 +24,113 @@ namespace LibraryManagementApp
                 var json = File.ReadAllText(DataFilePath);
                 books = JsonSerializer.Deserialize<List<Book>>(json);
             }
+            else
+            {
+                Console.WriteLine("Data file not found. Creating a new one.");
+                SaveData();
+            }
+        }
+
+        public void SaveData()
+        {
+            var json = JsonSerializer.Serialize(books);
+            File.WriteAllText(DataFilePath, json);
+        }
+
+        public void AddBook()
+        {
+            // ... (same as before)
+
+            SaveData();
+            Console.WriteLine("Book added successfully.");
+        }
+
+        public void UpdateBook()
+        {
+            Console.WriteLine("Enter the ID of the book to update:");
+            int id = int.Parse(Console.ReadLine());
+
+            var existingBook = books.Find(b => b.BookId == id);
+            if (existingBook != null)
+            {
+                Console.WriteLine("Enter the new name of the book:");
+                existingBook.BookName = Console.ReadLine();
+
+                Console.WriteLine("Enter the new author of the book:");
+                existingBook.Author = Console.ReadLine();
+
+                SaveData();
+                Console.WriteLine("Book details updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Book not found.");
+            }
+        }
+
+        public void RemoveBook()
+        {
+            Console.WriteLine("Enter the ID of the book to remove:");
+            int id = int.Parse(Console.ReadLine());
+
+            var existingBook = books.Find(b => b.BookId == id);
+            if (existingBook != null)
+            {
+                books.Remove(existingBook);
+                SaveData();
+                Console.WriteLine("Book removed successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Book not found.");
+            }
+        }
+
+        // Other methods (SearchBook) go here...
+    }
+
+    // Rest of the code remains the same...
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+
+namespace LibraryManagementApp
+{
+    public class Book
+    {
+        public int BookId { get; set; }
+        public string BookName { get; set; }
+        public string Author { get; set; }
+    }
+
+    public class Library
+    {
+        private List<Book> books = new List<Book>();
+        private const string DataFilePath = "library_data.json";
+
+        public void LoadData()
+        {
+            if (File.Exists(DataFilePath))
+            {
+                var json = File.ReadAllText(DataFilePath);
+                books = JsonSerializer.Deserialize<List<Book>>(json);
+            }
         }
 
         public void SaveData()
