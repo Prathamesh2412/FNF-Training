@@ -1,3 +1,139 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+
+namespace LibraryManagementApp
+{
+    public class Book
+    {
+        public int BookId { get; set; }
+        public string BookName { get; set; }
+        public string Author { get; set; }
+    }
+
+    public class Library
+    {
+        private List<Book> books = new List<Book>();
+        private const string DataFilePath = "library_data.json";
+
+        public void LoadData()
+        {
+            if (File.Exists(DataFilePath))
+            {
+                var json = File.ReadAllText(DataFilePath);
+                books = JsonSerializer.Deserialize<List<Book>>(json);
+            }
+        }
+
+        public void SaveData()
+        {
+            var json = JsonSerializer.Serialize(books);
+            File.WriteAllText(DataFilePath, json);
+        }
+
+        public void AddBook()
+        {
+            Console.WriteLine("Enter the ID of the book:");
+            int id = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter the name of the book:");
+            string name = Console.ReadLine();
+
+            Console.WriteLine("Enter the author of the book:");
+            string author = Console.ReadLine();
+
+            var newBook = new Book { BookId = id, BookName = name, Author = author };
+            books.Add(newBook);
+            SaveData();
+            Console.WriteLine("Book added successfully.");
+        }
+
+        public void SearchBook()
+        {
+            Console.WriteLine("Enter the search term (author or title):");
+            string searchTerm = Console.ReadLine();
+
+            var foundBooks = books.FindAll(b => b.Author.Contains(searchTerm) || b.BookName.Contains(searchTerm));
+            if (foundBooks.Count > 0)
+            {
+                Console.WriteLine("Found books:");
+                foreach (var book in foundBooks)
+                {
+                    Console.WriteLine($"ID: {book.BookId}, Title: {book.BookName}, Author: {book.Author}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No matching books found.");
+            }
+        }
+
+        // Other methods (UpdateBook, RemoveBook) go here...
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Library Management System");
+            var library = new Library();
+            library.LoadData();
+
+            do
+            {
+                Console.WriteLine("\nMenu:");
+                Console.WriteLine("1: Add Book");
+                Console.WriteLine("2: Search Book");
+                Console.WriteLine("3: Exit");
+                Console.Write("Enter your choice: ");
+                int choice;
+                if (int.TryParse(Console.ReadLine(), out choice))
+                {
+                    switch (choice)
+                    {
+                        case 1:
+                            library.AddBook();
+                            break;
+                        case 2:
+                            library.SearchBook();
+                            break;
+                        case 3:
+                            Console.WriteLine("Exiting the application. Thank you!");
+                            return;
+                        default:
+                            Console.WriteLine("Invalid choice. Please try again.");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid numeric choice.");
+                }
+            } while (true);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 using ConsoleApp3;
 using System;
 using System.Collections.Concurrent;
