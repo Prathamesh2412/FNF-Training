@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM Example</title>
+    <script src="Ex05functions.js"></script>
+    <script src="ExAddingElements.js"></script>
+    <script>
+
+        function onClick() {
+            // Use the DOM to get the input element value
+            let name = document.getElementById('textName').value;
+            document.getElementById("spDisplay").innerText = "The name is " + name;
+        }
+        function deleteitem(){
+                    removeitem(item);
+                    populateitem();
+        }
+
+        function populateitem(){
+            let items=getAllitems();
+            let ul = document.getElementById("isitems");
+            ul.innerHTML = "";
+            for(const item of items){
+                let line = `<li>${item}<a href ='#' onclick="deleteitem('${item}')">X</a></li>`;
+                ul.innerHTML+=line;
+            }
+        }
+
+        function onAdditem(){
+            //get the value to add
+            const item =document.getElementById("txtitem").value;
+            //call the addtocart func from the external js file
+            Additem(item);
+            //populate the data into the ul tag
+            populateitem();            
+        }
+        function onGetresult(){
+            //get the values
+            const v1 = parseFloat(document.getElementById("textFirstvalue").value);
+            const v2 = parseFloat(document.getElementById("textsecondValue").value);
+            const op = document.getElementById("sloption").value;
+            const p = document.getElementById("pResult")
+            //switch case statemnt
+            switch(op){
+                case "Add":
+                    p.innerText=addfunc(v1,v2);
+                break;
+                case "Subtract":p.innerText=subFunc(v1,v2);
+                break;
+                case "multiply":p.innerText=mulfunc(v1,v2);
+                break;
+                case "divide":p.innerText=divfunc(v1,v2);
+                break;
+               default:
+                alert("unrecognized choice");
+                break;
+            }
+            //call the appropriate result
+            //set the result to the p element
+        }
+    </script>
+
+    <style>
+        div{
+            border: 2px solid blue;
+            box-shadow: 2px 2px 1px 1px green;
+            width:40%;
+            margin: 15px;
+            display:inline-block;
+            vertical-align: top;
+            background-color: rgb(184, 184, 206);
+        }
+    </style>
+</head>
+<body>
+    <div>
+    <h1>Example of DOM usage</h1>
+    <hr/>
+    <p>Enter your name:
+        <input id="textName" placeholder="Name" />
+        <button onclick="onClick()">Submit</button>
+    </p>
+    <p style="color: black;">
+        <span id="spDisplay"></span>
+    </p>
+    </div>
+<div>
+    <h1>Math calc</h1>
+    <hr>
+    <p>
+        enter the first number:
+        <input type="number" id = "textFirstvalue"/>
+    </p>
+    <p>
+        select the option:
+        <select id = "sloption">
+            <option>Select</option>
+            <option>Add</option>
+            <option>Subtract</option>
+            <option>multiply</option>
+            <option>divide</option>
+        </select>
+    </p>
+    <p>enter the second number
+    <input type = "number" id = "textsecondValue"/>
+</p>
+<p>
+    <button onclick="onGetresult()" >Get result</button>
+</p>
+<p id = "pResult" style="border: 2px dashed;color: indianred;"></p>
+</div>
+<div>
+    <h1>Adding elements to Array</h1>
+    <hr>
+    <p>
+        enter the item name:
+        <input placeholder="Enter the item name"id = "txtitem"/>
+        <button onclick="onAdditem()">Add to cart</button>
+    </p>
+    <p>
+        List of items with us : </br>
+        <ul id ="isitems"></ul>
+    </p>
+</div>
+
+</body>
+</html>

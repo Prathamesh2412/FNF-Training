@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Employee registration form</title>
+    <script src="Ex08Employee.js" ></script>
+    <style>
+        p{
+            font-size: 25px;
+        }
+        input{
+            border-radius: 5px;
+            padding: 10px;
+            background-color: aqua;
+            color: blue;
+            min-width: 200px;
+            font-size: 25px;
+        }
+        button{
+            background-color:grey;
+            width: 200px;
+            height: 50px;
+            padding: 10px;
+        }
+        
+    </style>
+    <script>
+        function Registor(){
+            let id = document.getElementById("textid").value;
+            let name = document.getElementById("textname").value;
+            let Salary = document.getElementById("textAddress").value;
+            let Address = document.getElementById("textsalary").value;
+
+            let emp=new Employee(id,name,Address,Salary);
+            let json = JSON.stringify(emp);
+            document.querySelector("span").innerText=json
+            localStorage.setItem("emp",json)
+
+        }
+        window.addEventListener("load",function(){
+            let value =localStorage.getItem("emp");
+            if(value==null){
+                alert("No data is stored")
+            }else{
+                let emp = JSON.parse(value);
+                document.getElementById('textid').value=emp.empId;
+                document.getElementById('textname').value=emp.empname;
+                document.getElementById('textAddress').value=emp.empAddress;
+                document.getElementById('textsalary').value=emp.empsalary;
+            }
+            let btn=document.querySelector("button");
+            btn.addEventListener("click",Registor);
+            
+            
+        });
+        </script>
+</head>
+<body>
+    <div>
+        <h2>Employee registration Form</h2>
+        <hr>
+        <p>
+            enter the id:<input type="number" id="textid" placeholder="enter the id">
+        </p>
+        <p>
+            enter the Name:<input type="text" id="textname" placeholder="enter the name">
+        </p>
+        <p>
+            enter the Address:<input type="text" id="textAddress" placeholder="enter the Address">
+        </p>
+        <p>
+            enter the Salary:<input type="number" id="textsalary" placeholder="enter the Salary">
+        </p>
+        <p>
+            <button>registor</button>
+        </p>
+    </div>
+    <div>
+        <span></span>
+    </div>
+
+</body>
+</html>

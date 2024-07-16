@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="mainStyle.css">
+        <title> forms example</title>
+    </head>
+    <body>
+        <h2>using forms html</h2>
+        <article>
+            <h2>using html forms</h2>
+            <p>forms are used to take inputs fro the user and process it to a storagr loaction
+            </br>
+            forms are usually server side scripting if the app is using only client side scrippting then the form does not need the atributes
+            </p>
+
+        </article>
+        <form >
+            <h1> Student RegistraTION Form</h1>
+        </hr>
+        <p><input type="text" placeholder="Enter your name"></p>
+        <p><input type = "email" placeholder="Enter the email"></p>
+        <p><input type = "password" placeholder="Enter the Password"></p>
+        <p><input type="date" placeholder="enter the date of birth"></p>
+        <p><input type="checkbox" >Male	</p>
+        <p><input type="checkbox" >FEMale	</p>
+        <p><input type="number" min="18" max="100" placeholder="age"></p>
+ 
+        <p>Volume:<input type="range" id="volume" name="volume" min="0" max="100"></p>
+            <p> select the qualification
+                <select>
+                    <option>Graduation</option>
+                    <option>under grad</option>
+                    <option>post gra</option>
+                    <option>Reaserch</option>
+                </select>
+            </p>
+        <p>select the home city
+            <datalist id = "dtcities">
+                <option>Banglore</option>
+                <option>Hydrabad</option>
+                <option>Pune</option>
+                <option>Mumbai</option>
+                <option>Delhi</option>
+                <option>Bidar</option>
+                <option>bhalki</option>
+                <option>Dharwad</option>
+                <option>belgavi</option>
+                <option>Kalburgi</option>
+            </datalist>
+            <input list ="dtcities" placeholder="enter the city"/>
+        </p>
+        <p>
+            enter the gender:
+            <input type="radio" name="rdGender" id ="rdGender">Male
+            <input type="radio" name="rdGender" id ="rdGender">FeMale
+            <input type="radio" name="rdGender" id ="rdGender">other
+        </p>
+        <p>
+            <input type="search" placeholder="search">
+        </p>
+        <input type="submit" value="Registor">
+        </form>
+    </body>
+</html>
