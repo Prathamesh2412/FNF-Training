@@ -1,377 +1,106 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
+using DataAccessLib.Data;
+using Microsoft.EntityFrameworkCore;
 
-namespace LibraryManagementApp
+namespace DataAccessLib
 {
-    public class Book
+    public interface IDataComponent
     {
-        public int BookId { get; set; }
-        public string BookName { get; set; }
-        public string Author { get; set; }
+        void AddNewEmp(string name, string address, int salary, int deptId);
+        void UpdateNewEmp(string name, string address, int salary, int deptId);
+        void DeleteEmployee(int id);
+        List<EmpTable> GetAllEmps();
+        List<DeptTable> GetAllDept();
+
+        void AddDept(string name);
+
     }
-
-    public class Library
+    class EmployeeDBAcess : IDataComponent
     {
-        private List<Book> books = new List<Book>();
-        private const string DataFilePath = "library_data.json";
-
-        public void LoadData()
-        {
-            if (File.Exists(DataFilePath))
-            {
-                var json = File.ReadAllText(DataFilePath);
-                books = JsonSerializer.Deserialize<List<Book>>(json);
-            }
-            else
-            {
-                Console.WriteLine("Data file not found. Creating a new one.");
-                SaveData();
-            }
-        }
-
-        public void SaveData()
-        {
-            var json = JsonSerializer.Serialize(books);
-            File.WriteAllText(DataFilePath, json);
-        }
-
-        public void AddBook()
-        {
-            // ... (same as before)
-
-            SaveData();
-            Console.WriteLine("Book added successfully.");
-        }
-
-        public void UpdateBook()
-        {
-            Console.WriteLine("Enter the ID of the book to update:");
-            int id = int.Parse(Console.ReadLine());
-
-            var existingBook = books.Find(b => b.BookId == id);
-            if (existingBook != null)
-            {
-                Console.WriteLine("Enter the new name of the book:");
-                existingBook.BookName = Console.ReadLine();
-
-                Console.WriteLine("Enter the new author of the book:");
-                existingBook.Author = Console.ReadLine();
-
-                SaveData();
-                Console.WriteLine("Book details updated successfully.");
-            }
-            else
-            {
-                Console.WriteLine("Book not found.");
-            }
-        }
-
-        public void RemoveBook()
-        {
-            Console.WriteLine("Enter the ID of the book to remove:");
-            int id = int.Parse(Console.ReadLine());
-
-            var existingBook = books.Find(b => b.BookId == id);
-            if (existingBook != null)
-            {
-                books.Remove(existingBook);
-                SaveData();
-                Console.WriteLine("Book removed successfully.");
-            }
-            else
-            {
-                Console.WriteLine("Book not found.");
-            }
-        }
-
-        // Other methods (SearchBook) go here...
-    }
-
-    // Rest of the code remains the same...
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
-
-namespace LibraryManagementApp
-{
-    public class Book
-    {
-        public int BookId { get; set; }
-        public string BookName { get; set; }
-        public string Author { get; set; }
-    }
-
-    public class Library
-    {
-        private List<Book> books = new List<Book>();
-        private const string DataFilePath = "library_data.json";
-
-        public void LoadData()
-        {
-            if (File.Exists(DataFilePath))
-            {
-                var json = File.ReadAllText(DataFilePath);
-                books = JsonSerializer.Deserialize<List<Book>>(json);
-            }
-        }
-
-        public void SaveData()
-        {
-            var json = JsonSerializer.Serialize(books);
-            File.WriteAllText(DataFilePath, json);
-        }
-
-        public void AddBook()
-        {
-            Console.WriteLine("Enter the ID of the book:");
-            int id = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Enter the name of the book:");
-            string name = Console.ReadLine();
-
-            Console.WriteLine("Enter the author of the book:");
-            string author = Console.ReadLine();
-
-            var newBook = new Book { BookId = id, BookName = name, Author = author };
-            books.Add(newBook);
-            SaveData();
-            Console.WriteLine("Book added successfully.");
-        }
-
-        public void SearchBook()
-        {
-            Console.WriteLine("Enter the search term (author or title):");
-            string searchTerm = Console.ReadLine();
-
-            var foundBooks = books.FindAll(b => b.Author.Contains(searchTerm) || b.BookName.Contains(searchTerm));
-            if (foundBooks.Count > 0)
-            {
-                Console.WriteLine("Found books:");
-                foreach (var book in foundBooks)
-                {
-                    Console.WriteLine($"ID: {book.BookId}, Title: {book.BookName}, Author: {book.Author}");
-                }
-            }
-            else
-            {
-                Console.WriteLine("No matching books found.");
-            }
-        }
-
-        // Other methods (UpdateBook, RemoveBook) go here...
-    }
-
-    class Program
-    {
+        static FnftrainingContext dbContext = new FnftrainingContext();
         static void Main(string[] args)
         {
-            Console.WriteLine("Library Management System");
-            var library = new Library();
-            library.LoadData();
-
-            do
+            EmpTable empTable = new EmpTable();
+            GetAllDept();
+        }
+        public void AddDept(string name)
+        {
+            var rec = new DeptTable
             {
-                Console.WriteLine("\nMenu:");
-                Console.WriteLine("1: Add Book");
-                Console.WriteLine("2: Search Book");
-                Console.WriteLine("3: Exit");
-                Console.Write("Enter your choice: ");
-                int choice;
-                if (int.TryParse(Console.ReadLine(), out choice))
-                {
-                    switch (choice)
-                    {
-                        case 1:
-                            library.AddBook();
-                            break;
-                        case 2:
-                            library.SearchBook();
-                            break;
-                        case 3:
-                            Console.WriteLine("Exiting the application. Thank you!");
-                            return;
-                        default:
-                            Console.WriteLine("Invalid choice. Please try again.");
-                            break;
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input. Please enter a valid numeric choice.");
-                }
-            } while (true);
+                Deptname = name,
+            };
+
+           dbContext.Add(rec);
+            dbContext.SaveChanges();
+        }
+
+        public void AddNewEmp(string name, string address, int salary, int deptId)
+        {
+            var rec = new EmpTable
+            {
+                EmpName = name,
+                EmpAddress = address,
+                EmpSalary = salary,
+                DeptId = deptId
+            };
+            dbContext.EmpTables.Add(rec);
+            dbContext.SaveChanges();
+
+        }
+
+        public List<DeptTable> GetAllDept() => dbContext.DeptTables.ToList();
+       
+
+        public List<EmpTable> GetAllEmps() => dbContext.EmpTables.ToList();
+        
+        public void DeleteEmployee(int id)
+        {
+            var rec=(from emp in dbContext.EmpTables
+                     where emp.EnpId == id
+                     select emp).FirstOrDefault();
+            if(rec != null)
+            {
+                dbContext.EmpTables.Remove(rec);
+                dbContext.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Record not found to delete");
+            }
+        }
+
+        public void UpdateNewEmp(string name, string address, int salary, int deptId)
+        {
+            var emp = new EmpTable
+            {
+                EmpName = "Prathamesh",
+                EmpAddress = "Bhalki",
+                EnpId = 4,
+                DeptId = 2
+            };
+            var context = new EmpTable();
+            var foundbook = dbContext.EmpTables.ToList().Find(emp =>emp.EnpId == 1);
+
+            if (foundbook != null)
+            {
+                foundbook.EmpName = emp.EmpName;
+                foundbook.EmpAddress = emp.EmpAddress;
+                foundbook.EnpId = emp.EnpId;
+                foundbook.DeptId = emp.DeptId;
+                dbContext.SaveChanges();
+                Console.WriteLine("book updated sucessfully");
+            }
+            else
+            {
+                throw new Exception("Book not Found to update");
+            }
+
+
         }
     }
 }
 
 
+/*Scaffold-DbContext "Server =FNFIDVPRE20541\SQLSERVER; Database=fnftraining;
+Trusted_Connection =True; TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Data
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-using ConsoleApp3;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ConsoleApp1
-{
-    public class Library
-    {
-        public int BookId { get; set; }
-        public string BookName { get; set; } = string.Empty;
-        public string Author { get; set; } = string.Empty;
-    }
-
-    public class Display()
-    {
-        private List<Library> inventry = new List<Library>();
-
-        public void AddBook()
-        {
-            Library details = new Library();
-
-            Console.WriteLine("Enter the id of the book to add:");
-            details.BookId = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Enter te name of the book:");
-            details.BookName = Console.ReadLine();
-
-            Console.WriteLine("Enter the Author of the book:");
-            details.Author = Console.ReadLine();
-
-
-            inventry.Add(details);
-            Console.WriteLine("book added succesfully");
-        }
-
-        public void RemoveBook()
-        {
-            Console.WriteLine("Enter the ID of the expense to remove:");
-            int id = int.Parse(Console.ReadLine());
-
-            Library book = inventry.Find(e => e.BookId == id);
-            if (book != null)
-            {
-                inventry.Remove(book);
-                Console.WriteLine("Expense removed successfully.");
-            }
-            else
-            {
-                Console.WriteLine("Invalid ID. Expense not found.");
-            }
-        }
-
-        public void FindBook()
-        {
-            Console.WriteLine("Enter the id of the book u want to find");
-            string author = Console.ReadLine();
-
-            Library book = inventry.Find(e => e.Author == author);
-            if (book != null)
-            {
-                Console.WriteLine($"Book you were searching its id is{book.BookId}\n the Book Name is:{book.BookName}\n and its Author is:{book.Author}");
-            }
-            else
-            {
-                Console.WriteLine("book not found");
-            }
-        }
-        public void UpdateDetails()
-        {
-            Console.WriteLine("enter the book id to update");
-            int id = int.Parse(Console.ReadLine());
-
-            Library book = inventry.Find(e => e.BookId == id);
-            if (book != null)
-            {
-                Console.WriteLine("enter the new id for the book");
-                book.BookId = int.Parse(Console.ReadLine());
-
-                Console.WriteLine("enter the new book name");
-                book.BookName = Console.ReadLine();
-
-                Console.WriteLine("enter the new Author");
-                book.Author = Console.ReadLine();
-
-                Console.WriteLine("book updated succesfully");
-            }
-            else
-            {
-                Console.WriteLine("Invalid book id book not found");
-            }
-
-        }
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Library Management System");
-            Display details = new Display();
-
-            do { 
-            Console.WriteLine("1: Add Bokk");
-            Console.WriteLine("2: Update book details");
-            Console.WriteLine("3: Remove book");
-            Console.WriteLine("4: Find book by its author name");
-
-            Console.WriteLine("Enter your choice:");
-            int choice = int.Parse(Console.ReadLine());
-
-            switch (choice)
-            {
-                case 1:
-                        details.AddBook();
-                    break;
-                case 2:
-                        details.UpdateDetails();
-                    break;
-                case 3:
-                        details.RemoveBook();
-                    break;
-                case 4:
-                        details.FindBook();
-                    break;
-                default:
-                    Console.WriteLine("Invalid choice");
-                    break;
-            }
-            Console.WriteLine("Press Enter to continue...");
-            Console.ReadLine();
-        } while (true);
-        }
-    }
-}
+*/
