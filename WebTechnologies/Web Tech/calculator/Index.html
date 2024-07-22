@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Calculator</title>
+    <link rel=stylesheet href="styles.css" />
+</head>
+
+<body>
+    <h1>Modern Calculator</h1>
+    <hr />
+    <div class="inputarea">
+        <input type="Text" placeholder="enter the first value " id="textinp">
+        <ul id="tasklist"></ul>
+    </div>
+    <div class="operate">
+        <p>
+
+            <label for="Opearations">Choose a the operation u want to perform:</label>
+
+            <select id="op">
+                <option value="default">chosse</option>
+                <option value="Add">Adition</option>
+                <option value="Sub">subtraction</option>
+                <option value="Mul">multiplication</option>
+                <option value="Div">division</option>
+            </select>
+        </p>
+    </div>
+    <div class="input2">
+        <input type="Text" placeholder="Enter the second value" id="textinp2" />
+    </div>
+    <hr />
+    <div class="result">
+        <p>
+            the answeer will br here
+            <button id="btnresult" onclick="calculateResult()"> RESULT</button>
+        </p>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>

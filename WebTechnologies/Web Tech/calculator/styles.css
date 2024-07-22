@@ -1,0 +1,12 @@
+body {
+    background: white;
+}
+
+#btnresult:hover {
+    background-color: aquamarine;
+}
+
+#btnresult {
+    background-color: bisque;
+    font-weight: bold;
+}
