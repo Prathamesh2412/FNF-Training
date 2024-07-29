@@ -1,8 +1,14 @@
 
 https://chatgpt.com/share/eed5dc2a-d218-4e93-928b-bc06f5ed9b54
 
+When to Use Scaffold-DbContext
+it is only used when there is an existing Table/db in the database
+Database First Approach: You use Scaffold-DbContext when you want to generate EF Core models from an existing database schema. This is common in scenarios where the database design is already established, and you want to create an EF Core data model to interact with the existing database.
+Updating Models: If the database schema changes and you want to update your EF Core models to reflect these changes, you can re-run the Scaffold-DbContext command.
+cmd to run in package manager
+Scaffold-DbContext "Server=.\SQLEXPRESS; Database=FnfTraining; Trusted_Connection=True; TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Data
 
-
+*********************************************************************************************************
 Database in Asp.net
 1..to connect to the database go to view->server Explorer->rightclick on dataconnection(add connection) ->copy ssmsconnection string->
 put connection string in servername->Encrypt=False->Select db(fnftraining)->test connection->ok
