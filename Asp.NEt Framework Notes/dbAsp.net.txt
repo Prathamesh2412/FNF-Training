@@ -1,0 +1,51 @@
+Database in Asp.net
+1..to connect to the database go to view->server Explorer->rightclick on dataconnection(add connection) ->copy ssmsconnection string->
+put connection string in servername->Encrypt=False->Select db(fnftraining)->test connection->ok
+2..then right click on the db-> properties -> copy connection string
+********************************************************************************************************
+asp.Net Mvc connection to the db
+
+Exampe in movieDb
+ADD all the nuget packages
+entity framework tools,sql ,framework,dpendeny injection
+
+step 1 model ENTITY FRAMEWORK
+to Add the database to the mvc project first create Dbcontext class in modal where we have created a main class for project
+ex=  public class MovieDbContext : DbContext
+ {
+     public DbSet<Movie> Movies { get; set; }(Movie is the class name)
+
+     public MovieDbContext(DbContextOptions options) : base(options) { }
+ }
+
+step 2 
+Add the this in the controller
+private readonly MovieDbContext _MovieDbContext;
+
+public  MovieController(MovieDbContext context)
+{
+    this._MovieDbContext = context;
+}
+
+step3 program.cs
+add this in the above file
+builder.Services.AddDbContext<MovieDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("myconnection"));
+});
+
+step4 
+open pacakage manage 
+view-> other->package manager console
+run cmds
+add migration mig1
+update database
+***********************************************************************************************************
+Example in Asp.netFramework
+method 2 for connecting to the database ADO.NET FRAMEWORK
+step1 
+create a folder name data or anythisng
+step2>
+right click->Add->Ado.Net Entity DataModel->NExt->chosse the tabel u want then next
+
+********************************************************************************************************
