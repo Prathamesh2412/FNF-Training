@@ -1,3 +1,8 @@
+
+https://chatgpt.com/share/eed5dc2a-d218-4e93-928b-bc06f5ed9b54
+
+
+
 Database in Asp.net
 1..to connect to the database go to view->server Explorer->rightclick on dataconnection(add connection) ->copy ssmsconnection string->
 put connection string in servername->Encrypt=False->Select db(fnftraining)->test connection->ok
