@@ -1,1 +1,63 @@
 
+[Route("api/[controller]")]
+[ApiController]
+public class ExpenseController : ControllerBase
+{
+    private readonly ExpenseContext _context;
+
+    public ExpenseController(ExpenseContext context)
+    {
+        _context = context;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddExpense([FromBody] Expense expense)
+    {
+        _context.Expenses.Add(expense);
+        await _context.SaveChangesAsync();
+        return Ok(expense);
+    }
+
+    [HttpGet("date/{date}")]
+    public async Task<IActionResult> GetExpensesByDate(DateTime date)
+    {
+        var expenses = await _context.Expenses.Where(e => e.Date.Date == date.Date).ToListAsync();
+        return Ok(expenses);
+    }
+
+    [HttpGet("description/{description}")]
+    public async Task<IActionResult> GetExpensesByDescription(string description)
+    {
+        var expenses = await _context.Expenses.Where(e => e.Description.Contains(description)).ToListAsync();
+        return Ok(expenses);
+    }
+
+    [HttpGet("month/{month}")]
+    public async Task<IActionResult> GetExpensesByMonth(int month)
+    {
+        var expenses = await _context.Expenses.Where(e => e.Date.Month == month).ToListAsync();
+        return Ok(expenses);
+    }
+}
+
+
+$(document).ready(function(){
+    $("#addExpenseForm").submit(function(event){
+        event.preventDefault();
+        var expenseData = {
+            date: $("#date").val(),
+            amount: $("#amount").val(),
+            description: $("#description").val()
+        };
+        
+        $.ajax({
+            url: "/api/expenses",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(expenseData),
+            success: function(result){
+                alert("Expense added successfully!");
+            }
+        });
+    });
+});
