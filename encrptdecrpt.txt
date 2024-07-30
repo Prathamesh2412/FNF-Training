@@ -1,3 +1,35 @@
+<div id="searchSection" class="mb-4">
+    <h4>Search Expenses</h4>
+    <div class="form-row align-items-center">
+        <div class="col-md-3">
+            <input type="search" id="txtSearchDesc" class="form-control form-control-sm" placeholder="Description">
+        </div>
+        <div class="col-md-2">
+            <button id="btnSearchDesc" class="btn btn-secondary btn-sm w-100">Search</button>
+        </div>
+    </div>
+    <div class="form-row align-items-center mt-3">
+        <div class="col-md-3">
+            <input type="date" id="txtSearchDate" class="form-control form-control-sm">
+        </div>
+        <div class="col-md-2">
+            <button id="btnSearchDate" class="btn btn-secondary btn-sm w-100">Search</button>
+        </div>
+    </div>
+    <div class="form-row align-items-center mt-3">
+        <div class="col-md-3">
+            <input type="number" id="txtSearchMonth" class="form-control form-control-sm" placeholder="Month (1-12)">
+        </div>
+        <div class="col-md-2">
+            <button id="btnSearchMonth" class="btn btn-secondary btn-sm w-100">Search</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
