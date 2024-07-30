@@ -1,3 +1,70 @@
+public class ExpenseController : Controller
+{
+    private readonly ExpenseContext _context;
+
+    public ExpenseController(ExpenseContext context)
+    {
+        _context = context;
+    }
+
+    // View to Add Expense
+    public IActionResult Add()
+    {
+        return View();
+    }
+
+    // Add Expense Post Action
+    [HttpPost]
+    public async Task<IActionResult> Add(Expense expense)
+    {
+        if (ModelState.IsValid)
+        {
+            _context.Expenses.Add(expense);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index"); // Redirect to a list or confirmation page
+        }
+        return View(expense);
+    }
+
+    // View to Find Expenses
+    public IActionResult Find()
+    {
+        return View();
+    }
+
+    // Find Expenses by Date
+    [HttpPost]
+    public async Task<IActionResult> FindByDate(DateTime date)
+    {
+        var expenses = await _context.Expenses.Where(e => e.Date.Date == date.Date).ToListAsync();
+        return View("FindResults", expenses);
+    }
+
+    // Find Expenses by Description
+    [HttpPost]
+    public async Task<IActionResult> FindByDescription(string description)
+    {
+        var expenses = await _context.Expenses.Where(e => e.Description.Contains(description)).ToListAsync();
+        return View("FindResults", expenses);
+    }
+
+    // Find Expenses by Month
+    [HttpPost]
+    public async Task<IActionResult> FindByMonth(int month)
+    {
+        var expenses = await _context.Expenses.Where(e => e.Date.Month == month).ToListAsync();
+        return View("FindResults", expenses);
+    }
+}
+
+
+
+
+
+
+
+
+
 
 [Route("api/[controller]")]
 [ApiController]
