@@ -1,4 +1,4 @@
-Asp.net WebForms
+***********************Asp.net WebForms********************************
 
 -creating the project
 select Asp.NEt WebApplication
@@ -33,7 +33,7 @@ add this is child page <asp:contentplaceholder=""> and at the end of page close 
 just we need to write aour html ans aspx.cs code and add this particular files refrence in main master file then run it
 
 
-Asp.Net MVc
+***************************Asp.Net MVC************************************
 M = model
 it will contain all the get set methods which are requiresd for our application while creating we just need to add an .cs extenction class and write the code 
 
@@ -86,7 +86,7 @@ the controller will have all the view
 the view contains the html code
 ********************
 
-ASP.NEt MvC Framework
+*****************************ASP.NEt MvC Framework*************************************************
 -select the asp.net web application and then select mvc from the slction bar and untick http
 
 then create a modal folder if there is not in which u dfine a class like employee or stock
@@ -119,3 +119,35 @@ then go to routingthere change the name from class name and foloowed by view
 
 to connect to the db create a data folder in it 
 click add data->data entity model then next then select the prefered table this will create or connect to the table
+
+
+**********************************************ASP.NET WEB API************************************************
+1. choose web api from the core from the project selection page 
+2. if the data base is not connected then 
+  2.1 first install all the nuget pacakages (Entitiy framework core,sql server,tool,dependencyinkjection)
+   2.2 add db context in the file where we have created the table or the coloumn naems written
+    public class EmployeeDbContext : DbContext
+    {
+        public EmployeeDbContext(DbContextOptions<EmployeeDbContext>options) : base(options)
+        {
+            
+        }
+
+        public DbSet<Employee> Employees {  get; set; }
+    }
+  2.3 then add the data in program.cs file builder.Services.AddDbContext<EmployeeDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("myConnection"));
+            });
+2.4 then in pacakage manager console add add-migration mig1 then updatae-database
+the above process will connect the database then go to the controller or add one then write the prefered code by cretaing a constructor   private EmployeeDbContext _employeeDbContext;
+        public CrudEmployeeController(EmployeeDbContext context) { _employeeDbContext = context; }
+
+        [HttpGet("AllEmployees")]
+        public async Task<IActionResult> GetAllEmployees()
+        {
+            var data = await _employeeDbContext.Employees.ToListAsync();
+            return Ok(data);
+        }
+it will look something like this and will open the app directly in swagger using it we can use this api by adding thers connection string
+
