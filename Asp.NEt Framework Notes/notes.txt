@@ -3,3 +3,72 @@ Class Librafy is only used as dlll it does not have a startup object or (STATIC 
 console app is the one where we write the code
 LINQ 
 IN THIS WE CAN write the sql like codes to fetch the data
+
+
+CONNECTED DATA ACCESS
+In this thr connection is continuously and is not closed if we want to contact to the data base we need internet connection if its a server continuously 
+using System;
+using System.Data.SqlClient;
+
+class Program
+{
+    static void Main()
+    {
+        string connectionString = "Data Source=server_name;Initial Catalog=database_name;User ID=username;Password=password";
+        string query = "SELECT * FROM YourTableName";
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Console.WriteLine(reader["ColumnName1"].ToString() + " - " + reader["ColumnName2"].ToString());
+                    }
+                }
+            }
+        }  // Connection is closed when 'using' block ends
+    }
+}
+
+we use configuration when we want to fetch the data from the app.config file in app . confif we need  to add the required connection or the key and then using configuration we can fetch the value
+
+Disconnected model 
+in this we don't require a internet continuous because it will create its own database on the client side called DATASET using which it will store the data if the internet is not there also.it will store there and when the internet is available it will connect with the database 
+
+ENTITY FRAMEWORK 
+1.CODEFIRST APPROACH 
+2.DATABASE FIRST APPROACH 
+
+CODE FIRST APPROACH 
+In this we write the code forst and then connect it to the database using connection string 
+
+download all the package required for data access
+entity framework tools
+entity framework sql connection 
+
+1 we create a folder called model there we write the class name and the table name andbthe key then we add the datacintext and db set in the file then
+
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+}
+
+
+public class AppDbContext : DbContext
+{
+    public DbSet<Product> Products { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        
+    }
+}
+2 then open package manager console and add
+add-migration-mig1
+update-database 
