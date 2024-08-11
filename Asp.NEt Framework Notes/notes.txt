@@ -72,3 +72,8 @@ public class AppDbContext : DbContext
 2 then open package manager console and add
 add-migration-mig1
 update-database 
+
+
+database first approach 
+
+1 create a file called model and include all the tabel dlname same as it is in the data base then run the scoffold query 
