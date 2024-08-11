@@ -75,5 +75,5 @@ update-database
 
 
 database first approach 
-
+dotnet ef dbcontext scaffold "Data Source=server_name;Initial Catalog=database_name;User ID=username;Password=password" Microsoft.EntityFrameworkCore.SqlServer -o Models
 1 create a file called model and include all the tabel dlname same as it is in the data base then run the scoffold query 
