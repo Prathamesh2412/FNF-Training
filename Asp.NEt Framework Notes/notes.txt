@@ -1,3 +1,4 @@
+if we use static then we can use that class where ever we want
 creating a dll which is used to add an extra file to the main project
 Class Librafy is only used as dlll it does not have a startup object or (STATIC VoID MAIN) where as Console app is which will have all the features and cannot be used as dll as it has startup object
 console app is the one where we write the code
