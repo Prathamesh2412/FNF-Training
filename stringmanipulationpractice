@@ -1,0 +1,206 @@
+using ConsoleApp3;
+using System.Globalization;
+
+namespace ConsoleApp3
+{
+    public class Employee
+    {
+        public int Empid { get; set; }
+        public string EmpName { get; set; }
+
+        public string description { get; set; }
+    }
+    public class Program
+    {
+        private List<Employee> employee = new List<Employee>();
+
+        public void Add()
+        {
+            Employee emp = new Employee();
+            Console.WriteLine("Enter the id of the book");
+            emp.Empid = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter the name of the book");
+            emp.EmpName = Console.ReadLine();
+
+            Console.WriteLine("Enter the description of the book");
+            emp.description = Console.ReadLine();
+
+            employee.Add(emp);
+            Console.WriteLine("employee added sucess fully");
+
+        }
+
+        public void delete()
+        {
+            Console.WriteLine("enter the emp id to delete");
+            int empid = int.Parse(Console.ReadLine());
+
+            var existing = employee.Find(e => e.Empid == empid);
+            if (existing != null)
+            {
+                employee.Remove(existing);
+                Console.WriteLine("employee deleted ");
+            }
+            Console.WriteLine("employee not found");
+        }
+
+        public void update()
+        {
+            Employee emp = new Employee();
+
+            Console.WriteLine("enter the emp id to update");
+            int empid = int.Parse(Console.ReadLine());
+            var existing = employee.FirstOrDefault(e => e.Empid == empid);
+            if (existing != null)
+            {
+                Console.WriteLine("enter the emp Name");
+                emp.EmpName = Console.ReadLine();
+                Console.WriteLine("enter the emp Desc");
+                emp.description = Console.ReadLine();
+                Console.WriteLine("emp updated");
+            }
+            Console.WriteLine("emp not found");
+        }
+        public void find()
+        {           
+            Console.WriteLine("enter emp id");
+            int empid = int.Parse(Console.ReadLine());
+            Employee emp = employee.FirstOrDefault(e => e.Empid == empid);
+            Console.WriteLine($"ID: {emp.Empid}\n, Title: {emp.EmpName}\n, Author: {emp.description}");
+        }
+        public void reverse()
+        {
+            string name = "prathamesh";
+            string result = "";
+            for (int i = name.Length-1; i >=0; i--) 
+            {
+                result+= name[i];
+            }
+            Console.WriteLine(result);
+            
+        }
+        public void pali()
+        {
+            string name = "prarp";
+            string result = "";
+            for(int i = name.Length - 1; i >= 0; i--)
+            {
+                result+= name[i];
+            }
+            if (result != name)
+            {
+                Console.WriteLine("no palindrome");
+            }
+                Console.WriteLine("palindrome");
+            
+        }
+        public void novowels()
+        {
+            string name = "aeiou";
+            string result = "prathamesh";
+            int sum = 0;
+            foreach(char ch in result)
+            {
+                if (name.Contains(ch))
+                {
+                    sum += 1;
+                }
+            }
+            Console.WriteLine(sum);
+
+        }
+
+        public void noofwords()
+        {
+           Dictionary<char,int> result = new Dictionary<char, int> ();
+            string name = "prathamesh";
+            foreach(char ch in name)
+            {
+                if (result.ContainsKey(ch))
+                {
+                    result[ch]++;
+                }
+                else
+                {
+                    result[ch] = 1;
+                }
+            }
+            foreach(var pair in result)
+            {
+                Console.WriteLine(pair);
+            }
+
+        }
+        public void removeduplicates()
+        {
+            string name = "prathamesh";
+            string result = "";
+            foreach (char ch in name)
+            {
+                if (result.Contains(ch))
+                {
+                    result += ch;
+                }
+            }
+            Console.WriteLine(result);
+
+        }
+        public void Reversewordin()
+        {
+            string input = Console.ReadLine();
+            string[] word = input.Split(' ');
+            string result = "";
+                for(int i = word.Length-1; i>=0; i--)
+            {
+                result += word[i];
+            }
+                Console.WriteLine(result);
+
+        }
+        public void vowels()
+        {
+            string name = "prathamesh";
+            string result = "";
+            for (int i = name.Length - 1; i >= 0; i--)
+            {
+                result += name[i];
+            }
+            Console.WriteLine(result);
+
+        }
+        static void Main(string[] args)
+        {
+            Program prog = new Program();
+            prog.vowels();
+
+            //do
+            //{
+            //    Console.WriteLine("1: Add Expense");
+            //    Console.WriteLine("2: Update Expense");
+            //    Console.WriteLine("3: Remove Expense");
+            //    Console.WriteLine("4: Find Expense");
+            //    Console.WriteLine("Enter your choice:");
+            //    int choice = int.Parse(Console.ReadLine());
+            //    switch (choice)
+            //    {
+            //        case 1:
+            //            prog.Add();
+            //            break;
+            //        case 2:
+            //            prog.update();
+            //            break;
+            //        case 3: prog.delete(); break;
+            //        case 4: prog.find(); break;
+            //        default:
+            //            Console.WriteLine("Invalid choice");
+            //            break;
+            //            Console.WriteLine("Press Enter to continue...");
+            //            Console.ReadLine();
+            //    }
+
+            //} while (true);
+        }
+
+    }
+}
